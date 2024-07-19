@@ -1,66 +1,62 @@
-## Foundry
+# Verifed Contracts On Etherscan:
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+[Contracts](https://sepolia.etherscan.io/address/0x48250e68b496838ce0f9e73a2ba6e2b12224e34b#code)
 
-Foundry consists of:
+# Setup:
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## foundry.toml
 
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+```
+ffi = true
+fs_permissions = [{ access = "read", path = "./broadcast" }]
 ```
 
-### Test
+## OpenZeppelin
 
-```shell
-$ forge test
+Run :
+```
+forge install @openzeppelin/openzeppelin-contracts --no-commit
 ```
 
-### Format
-
-```shell
-$ forge fmt
+*foundry.toml* :
+```
+remappings = ["@openzeppelin/contracts=lib/openzeppelin-contracts/contracts"]
 ```
 
-### Gas Snapshots
+## cyfrin/foundry-devops
 
-```shell
-$ forge snapshot
+Run :
+```
+forge install cyfrin/foundr-devops --no-commit
 ```
 
-### Anvil
+# Commands:
 
-```shell
-$ anvil
+## Deploying 
+
+After adding the relevant data in the *.env* file, run this:
+Sourcing the *.env* file:
+```
+source .env
 ```
 
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+Deploying on Sepolia Testnet :
+```
+forge script script/DeployBasicNFT.s.sol --rpc-url $SEPOLIA_RPC_URL --private_key $PRIVATE_KEY --broadcast --etherscan_api_key $ETHERSCAN_API_KEY --verify
+```
+OR
+```
+make deploy ARGS="--network sepolia"
 ```
 
-### Cast
+## Minting through console
 
-```shell
-$ cast <subcommand>
+Run :
+```
+forge script script/Interactions.s.sol:MintBasicNFT --rpc-url $SEPOLIA_RPC_URL --private_key $PRIVATE_KEY --broadcast --etherscan_api_key $ETHERSCAN_API_KEY --verify
+```
+OR
+```
+make mint ARGS="--network sepolia"
 ```
 
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
